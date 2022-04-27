@@ -170,9 +170,3 @@ export const getStaticProps: GetStaticProps = async context => {
     }
   }
 }
-// export const getStaticProps = async ({params }) => {
-//   const prismic = getPrismicClient({});
-//   const response = await prismic.getByUID(TODO);
-
-//   // TODO
-// };
