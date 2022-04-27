@@ -2,6 +2,8 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import { FiCalendar, FiUser } from 'react-icons/fi';
 import { useState } from 'react';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import * as Prismic from '@prismicio/client';
 
 import Header from '../components/Header';
@@ -35,11 +37,13 @@ export default function Home({ postsPagination }: HomeProps ) {
   const formattedPost = postsPagination.results.map(post => {
     return {
       ...post,
-      first_publication_date: new Date(post.first_publication_date).toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: 'short', 
-        year: 'numeric' 
-      })
+      first_publication_date: format(
+        new Date(post.first_publication_date),
+        'dd MMM yyyy',
+        {
+          locale: ptBR,
+        }
+      )
     }
   })
   const [posts, setPosts] = useState<Post[]>(formattedPost) // usando a formatação como estado inicial dos posts
@@ -63,11 +67,13 @@ export default function Home({ postsPagination }: HomeProps ) {
     const newPosts = postResults.results.map(post => {
       return {
         uid: post.uid,
-        first_publication_date: new Date(post.first_publication_date).toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: 'short', 
-          year: 'numeric' 
-        }),
+        first_publication_date:format(
+          new Date(post.first_publication_date),
+          'dd MMM yyyy',
+          {
+            locale: ptBR,
+          }
+        ),
         data: {
           title: post.data.title,
           subtitle: post.data.subtitle,
@@ -128,7 +134,7 @@ export default function Home({ postsPagination }: HomeProps ) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const prismic = getPrismicClient();
+  const prismic = getPrismicClient({});
 
   const postsResponse = await prismic.query (
     [Prismic.predicate.at('document.type', 'posts')],
