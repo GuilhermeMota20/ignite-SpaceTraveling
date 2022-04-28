@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from 'next/image';
 
 import styles from './header.module.scss'
 
@@ -7,7 +8,7 @@ export default function Header() {
     <header className={styles.postHeader}>
       <Link href="/">
         <a>
-          <img src="/Logo.svg" alt="logo" />
+          <Image src="/logo.svg" alt='logo' width="239" height="27" />
         </a>
       </Link>
     </header>
