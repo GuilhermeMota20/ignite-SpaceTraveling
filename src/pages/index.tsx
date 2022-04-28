@@ -4,7 +4,6 @@ import { FiCalendar, FiUser } from 'react-icons/fi';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import * as Prismic from '@prismicio/client';
 
 import Header from '../components/Header';
 import { getPrismicClient } from '../services/prismic';
@@ -136,12 +135,7 @@ export default function Home({ postsPagination }: HomeProps ) {
 export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient({});
 
-  const postsResponse = await prismic.query (
-    [Prismic.predicate.at('document.type', 'posts')],
-    {
-      pageSize: 5,
-    }
-  )
+  const postsResponse = await prismic.getByType('posts', { pageSize: 5 });
 
   const posts = postsResponse.results.map(post => {
 
